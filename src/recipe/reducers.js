@@ -8,7 +8,7 @@ import {
 const initialState = {
   isLoading: false,
   categories: [],
-  data: [],
+  currentRecipe: null,
 };
 
 export const recipes = (state = initialState, action) => {
@@ -17,11 +17,7 @@ export const recipes = (state = initialState, action) => {
   switch (type) {
     case SAVE_RECIPE: {
       const { recipe: newRecipe } = payload;
-      if (state.data.filter(recipe => recipe.idMeal === newRecipe.idMeal).length < 1) {
-        return { isLoading: false, data: state.data.concat(newRecipe) };
-      } else {
-        return {...state, isLoading: false };
-      }
+      return {...state, isLoading: false, currentRecipe: newRecipe };
       
     }
 

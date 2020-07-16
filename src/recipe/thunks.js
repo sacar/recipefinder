@@ -7,12 +7,34 @@ import {
 
 export const findRecipe = (searchStr) => async (dispatch) => {
   try {
+    console.log("Test")
     dispatch(loadRecipeInProgress());
     const response = await fetch(
       `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchStr}`
     );
     const recipe = await response.json();
     console.log("find recipe");
+    console.log(recipe);
+    if (recipe.meals) {
+      dispatch(saveRecipe(recipe.meals[0]));
+    } else {
+      dispatch(displayAlert("Cannot find the recipe"));
+    }
+  } catch (e) {
+    dispatch(displayAlert(e));
+    dispatch(loadRecipeFailure());
+  }
+};
+
+export const fetchRandomRecipe = () => async (dispatch) => {
+  try {
+    console.log("Test 2")
+    dispatch(loadRecipeInProgress());
+    const response = await fetch(
+      "https://www.themealdb.com/api/json/v1/1/random.php"
+    );
+    const recipe = await response.json();
+    console.log("find random recipe");
     console.log(recipe);
     if (recipe.meals) {
       dispatch(saveRecipe(recipe.meals[0]));
